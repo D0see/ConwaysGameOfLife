@@ -1,28 +1,151 @@
 * {
     border: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --shadows: rgb(26, 26, 26);
+}
+
+html {
+    background-color: rgb(222, 245, 242);
+}
+
+#gridForm {
+    position: relative;
+    bottom: 45px;
+    background-color: white;
+    width: 90vw;
+    max-width: 70vh;
+    margin: 0 auto;
+    padding: 25px 0;
+    gap: 2%;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px var(--shadows);
+    transition: bottom 0.35s ease;
+    border: 3px solid darkgrey;
+}
+
+#gridForm:hover {
+    bottom: 20px;
+}
+
+input {
+    border: 2px solid black;
+    border-radius: 2px;
+}
+
+input:hover {
+    border: 2px solid rgb(76, 245, 222);
+}
+
+.input {
+    position: relative;
+    top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#generateGrid {
+    position: relative;
+    top: 50px;
+    left: 25px;
+    height: 6vh;
+    min-height: 100px;
+    width: 6vh;
+    min-width: 100px;
+    border-radius: 100%;
+    background-color: white;
+    border: 3px solid darkgray;
+    box-shadow: 2px 2px 2px 2px var(--shadows);
+    transition: transform 0.10s ease,
+                box-shadow 0.10s ease,
+                border-color 0.10s ease;
+}
+
+#generateGrid:active {
+    transform: scale(0.98) rotate(12deg);
+    box-shadow: 2px 2px 2px 2px var(--shadows),
+                -2px -2px 2px 0px var(--shadows),
+                -2px 2px 2px 0px var(--shadows),
+                2px -2px 2px 0px var(--shadows);
+}
+
+#generateGrid:hover{
+    border: 3px solid rgb(76, 245, 222);
+    cursor: pointer;
 }
 
 #grid {
+    text-align: center;
     display: grid;
-    width: 90%;
-    height: 50vh;
+    width: 80vw;
+    max-width: 70vh;
+    height: 80vw;
+    max-height: 70vh;
     gap: 1px;
     margin: 0 auto;
-    background-color: antiquewhite; 
-    border: 1px solid red;
+    background-color: white; 
+    box-shadow: 3px 3px 2px 2px var(--shadows);
+    border-radius: 5px;
+    border: 5px solid darkgrey;
 }
 
 .block{
     background-color: grey;
+    transition: background-color 0.10s cubic-bezier(.17,.67,.3,.94);
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    border-radius: 10px 10px 0 0;
-    text-align: center;
-    font-size: 25px;
-    border: 1px solid red;
+.block:hover {
+    cursor: pointer;
+}
+
+#tutorial {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#bottomButtons {
+    margin: 10px auto 0px;
+    padding: 15px 0;
+    gap: 2vh;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+}
+
+.playerButton {
+    background-color: white;
+    width: 8vh;
+    height: 8vh;
+    min-width: 40px;
+    min-height: 40px;
+    font-weight: 400;
+    font-size: 3vh;
+    border-radius: 100%;
+    border: 3px solid darkgray;
+    box-shadow: 2px 2px 2px 2px var(--shadows);
+    transition: transform 0.10s ease,
+                box-shadow 0.15s ease,
+                border-color 0.10s ease;
+}
+
+.playerButton:hover {
+    border-color: rgb(76, 245, 222);
+    cursor: pointer;
+}
+
+.playerButton:active {
+    transform: scale(0.90);
+    box-shadow: 2px 2px 2px 0px var(--shadows),
+                -2px -2px 2px 0px var(--shadows),
+                -2px 2px 2px 0px var(--shadows),
+                2px -2px 2px 0px var(--shadows);
 }

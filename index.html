@@ -7,20 +7,25 @@
     </head>
     <body>
         <form id = "gridForm">
-            <label for="gridWidth">Input the width for the grid</label>
-            <input type="number" id="gridWidth" name="gridWidth"  min="1" max="200" required></input>
-            <label for="gridHeight">Input the height for the grid</label>
-            <input type="number" id="gridHeight" name="gridHeight" min="1" max="200" required></input>
-            <button type="submit">Generate Grid</button>
+            <div class="input">
+                <label for="gridWidth">WIDTH</label>
+                <input type="number" id="gridWidth" name="gridWidth"  min="1" max="100" value="20" required></input>
+            </div>
+            <div class="input">
+            <label for="gridHeight">HEIGHT</label>
+            <input type="number" id="gridHeight" name="gridHeight" min="1" max="100" value="20" required></input>
+            </div>
+            <button type="submit" id="generateGrid">Generate Grid</button>
         </form>
     <div id="grid">
+        <p id="tutorial">Select a width & height, then click <span>generate grid</span></p>
 
     </div>
-    <button id="advance">Advance</button>
-    
+    <div id="bottomButtons">
+        <button id="advance" class="playerButton"> >|</button>
+        <button id="play" class="playerButton">></button>
+        <button id="stop" class="playerButton">||</button>
+    </div>
     </body>    
-    <footer>
-
-    </footer>
     <script src="./app.js" type="module"></script>
 </html>

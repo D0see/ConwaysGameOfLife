@@ -88,6 +88,11 @@ export default class Block {
         this.setColor();
     }
 
+    changeState(state){
+        this._state = state;
+        this.setColor();
+    }
+
     //set div backgroundColor based on state
     setColor(){
         this._state === 'dead' ? this._div.style.backgroundColor = 'grey' : this._div.style.backgroundColor = 'white';

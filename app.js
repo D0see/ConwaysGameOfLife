@@ -14,6 +14,24 @@ function twoDArrayBuilder(width, height){
     return newArray;
 }
 
+//Sets the next state for all blocks
+function setsAllNextStates(twoDArray) {
+    for (let i = 0; i < twoDArray.length; i++){
+        for (let j = 0; j < twoDArray[0].length; j++){
+            twoDArray[i][j].setNextState(twoDArray);
+        }
+    }
+}
+
+//Sets the state for all blocks (based on their ._nextStates)
+function setsAllStates(twoDArray){
+    for (let i = 0; i < twoDArray.length; i++){
+        for (let j = 0; j < twoDArray[0].length; j++){
+            twoDArray[i][j].setState();
+        }
+    }
+}
+
 //removes all children from an element
 function removeAllChildrens(element){
     while(element.firstChild){
@@ -21,17 +39,12 @@ function removeAllChildrens(element){
     }
 }
 
-/*
-const testArray = (twoDArrayBuilder(9, 9));
-console.log(testArray);
-const testNeightborsStats = testArray[0][0].getNeighborsStates(testArray);
-console.log(testNeightborsStats);
-testArray[0][0].setNextState(testArray);
-console.log(testArray[0][0].nextState);
-*/
-
 const grid = document.getElementById('grid');
+
 const advanceButton = document.getElementById('advance');
+const playButton = document.getElementById('play');
+const pauseButton = document.getElementById('stop');
+let pause = false;
 
 let gridWidth;
 let gridHeight;
@@ -57,31 +70,63 @@ gridForm.addEventListener('submit', () => {
     const playGround = twoDArrayBuilder(gridWidth, gridHeight);
 
     // Appends the blocks Div to the grid element and make them clickable
+    // selectedState is the resulting state of the clicked element
+    let selectedState;
     for (let i = 0; i < playGround.length; i++){
         for (let j = 0; j < playGround[0].length; j++){
 
             const visualBlock = playGround[i][j].div;
-            visualBlock.addEventListener('click', () => {
+            visualBlock.addEventListener('mousedown', (event) => {
+                event.preventDefault();
                 playGround[i][j].flipState();
+                selectedState = playGround[i][j].state;
+                console.log(selectedState);
+            
+            })
+            visualBlock.addEventListener('mouseover', (event) => {
+                if (event.buttons === 1) {
+                    playGround[i][j].changeState(selectedState);
+
+                }
             })
             grid.appendChild(visualBlock);
-            console.log('appended a block');
         }
     }
 
+    //Advance button makes the game go to the next frame
     advanceButton.addEventListener('click', () => {
-        for (let i = 0; i < playGround.length; i++){
-            for (let j = 0; j < playGround[0].length; j++){
-                playGround[i][j].setNextState(playGround);
-            }
+        setsAllNextStates(playGround);
+        setsAllStates(playGround);
+    })
+    //CHAT GPT CODE SHAME !!!!!!
+    let nextStatesInterval;
+    let statesInterval;
+    playButton.addEventListener('click', () => {
+        pause = false;
+        if (!nextStatesInterval) {
+            nextStatesInterval = setInterval(() => {
+                setsAllNextStates(playGround);
+            }, 1000);
         }
-
-        for (let i = 0; i < playGround.length; i++){
-            for (let j = 0; j < playGround[0].length; j++){
-                playGround[i][j].setState();
-            }
+        if (!statesInterval) {
+            statesInterval = setInterval(() => {
+                setsAllStates(playGround);
+            }, 1000);
+        
         }
     })
+    pauseButton.addEventListener('click', () => {
+        clearInterval(nextStatesInterval);
+        clearInterval(statesInterval);
 
-
+        // Reset the interval IDs
+        nextStatesInterval = null;
+        statesInterval = null;
+    })
+    //CHAT GPT CODE SHAME !!!!!!
+        
+    
 })
+
+
+// the game has walls for now
