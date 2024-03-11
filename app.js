@@ -17,18 +17,14 @@ function twoDArrayBuilder(width, height){
 //Sets the next state for all blocks
 function setsAllNextStates(twoDArray) {
     for (let i = 0; i < twoDArray.length; i++){
-        for (let j = 0; j < twoDArray[0].length; j++){
-            twoDArray[i][j].setNextState(twoDArray);
-        }
+        twoDArray[i].map(obj => obj.setNextState(twoDArray));
     }
 }
 
 //Sets the state for all blocks (based on their ._nextStates)
 function setsAllStates(twoDArray){
     for (let i = 0; i < twoDArray.length; i++){
-        for (let j = 0; j < twoDArray[0].length; j++){
-            twoDArray[i][j].setState();
-        }
+        twoDArray[i].map(obj => obj.setState());
     }
 }
 
@@ -39,20 +35,38 @@ function removeAllChildrens(element){
     }
 }
 
-const grid = document.getElementById('grid');
+//Style the pressed button and resets the others TO CHANGE
+function stylePressedButton(button, listOfButtons){
+    for (const el of listOfButtons) {
+        if (el === button) {
+            el.style.transform = 'scale(0.90)'
+            el.style.backgroundColor = 'lightblue';
+            el.style.boxShadow = '2px 2px 2px 0px rgb(26, 26, 26), -2px -2px 2px 0px rgb(26, 26, 26), -2px 2px 2px 0px rgb(26, 26, 26), 2px -2px 2px 0px rgb(26, 26, 26)';
+        } else {
+            el.style.backgroundColor = 'white';
+            el.style.transform = 'scale(1.00)';
+            el.style.boxShadow = '2px 2px 2px 2px rgb(26, 26, 26)'
+        }
+    }
+}
 
+
+//Global variables
+const grid = document.getElementById('grid');
 const advanceButton = document.getElementById('advance');
 const playButton = document.getElementById('play');
 const pauseButton = document.getElementById('stop');
-let pause = false;
-
+const arrOfPlayerButtons = [playButton, pauseButton];
 let gridWidth;
 let gridHeight;
-
 // Form that takes in the input for gridWidth & gridHeight
 const gridForm = document.getElementById('gridForm');
+
 gridForm.addEventListener('submit', () => {
     event.preventDefault();
+
+    //resets the buttons
+    stylePressedButton(undefined, arrOfPlayerButtons);
 
     //resets the grid
     removeAllChildrens(grid);
@@ -86,7 +100,6 @@ gridForm.addEventListener('submit', () => {
             visualBlock.addEventListener('mouseover', (event) => {
                 if (event.buttons === 1) {
                     playGround[i][j].changeState(selectedState);
-
                 }
             })
             grid.appendChild(visualBlock);
@@ -101,21 +114,22 @@ gridForm.addEventListener('submit', () => {
     //CHAT GPT CODE SHAME !!!!!!
     let nextStatesInterval;
     let statesInterval;
-    playButton.addEventListener('click', () => {
-        pause = false;
+    playButton.addEventListener('click', (event) => {
+        stylePressedButton(playButton, arrOfPlayerButtons);
         if (!nextStatesInterval) {
             nextStatesInterval = setInterval(() => {
                 setsAllNextStates(playGround);
-            }, 1000);
+            }, 750);
         }
         if (!statesInterval) {
             statesInterval = setInterval(() => {
                 setsAllStates(playGround);
-            }, 1000);
+            }, 750);
         
         }
     })
-    pauseButton.addEventListener('click', () => {
+    pauseButton.addEventListener('click', (event) => {
+        stylePressedButton(pauseButton, arrOfPlayerButtons);
         clearInterval(nextStatesInterval);
         clearInterval(statesInterval);
 
@@ -130,3 +144,13 @@ gridForm.addEventListener('submit', () => {
 
 
 // the game has walls for now
+
+//NOTES  :
+
+
+/*instead of a stylepressedbutton function i could
+ set a up css classes with named playerButtonpressed / playerButtonunpressed 
+and add them / remove them from the button class when it is pressed is pressed */
+
+/* i should make it so you can't start mousedown oustide the grid then change blocks when you hover
+over the grid while still in mousedown.*/
