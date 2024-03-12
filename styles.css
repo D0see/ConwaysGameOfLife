@@ -12,6 +12,8 @@ html {
     background-color: rgb(222, 245, 242);
 }
 
+/* Header */
+
 #gridForm {
     position: relative;
     bottom: 45px;
@@ -80,6 +82,8 @@ input:hover {
     cursor: pointer;
 }
 
+/* Grid */
+
 #grid {
     cursor: pointer;
     text-align: center;
@@ -112,6 +116,10 @@ input:hover {
     transform: translate(-50%, -50%);
 }
 
+
+/* Player */
+
+
 #player {
     margin: 10px auto 0px;
     padding: 15px 0;
@@ -123,7 +131,6 @@ input:hover {
 }
 
 .playerButton {
-    background-color: white;
     width: 8vh;
     height: 8vh;
     min-width: 40px;
@@ -132,7 +139,6 @@ input:hover {
     font-size: 3vh;
     border-radius: 100%;
     border: 3px solid darkgray;
-    box-shadow: 2px 2px 2px 2px var(--shadows);
     transition: transform 0.10s ease,
                 box-shadow 0.15s ease,
                 border-color 0.10s ease,
