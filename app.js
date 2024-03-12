@@ -37,19 +37,16 @@ function removeAllChildrens(element){
 
 //Style the pressed button and resets the others TO CHANGE
 function stylePressedButton(button, listOfButtons){
-    for (const el of listOfButtons) {
-        if (el === button) {
-            el.style.transform = 'scale(0.90)'
-            el.style.backgroundColor = 'lightblue';
-            el.style.boxShadow = '2px 2px 2px 0px rgb(26, 26, 26), -2px -2px 2px 0px rgb(26, 26, 26), -2px 2px 2px 0px rgb(26, 26, 26), 2px -2px 2px 0px rgb(26, 26, 26)';
+    listOfButtons.forEach(element => {
+        if (element === button) {
+            element.classList.remove('unpressed');
+            element.classList.add('pressed');
         } else {
-            el.style.backgroundColor = 'white';
-            el.style.transform = 'scale(1.00)';
-            el.style.boxShadow = '2px 2px 2px 2px rgb(26, 26, 26)'
+            element.classList.add('unpressed');
+            element.classList.remove('pressed');
         }
-    }
+    });
 }
-
 
 //Global variables
 const grid = document.getElementById('grid');
@@ -62,7 +59,7 @@ let gridHeight;
 // Form that takes in the input for gridWidth & gridHeight
 const gridForm = document.getElementById('gridForm');
 
-gridForm.addEventListener('submit', () => {
+gridForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     //resets the buttons
@@ -111,7 +108,7 @@ gridForm.addEventListener('submit', () => {
         setsAllNextStates(playGround);
         setsAllStates(playGround);
     })
-    //CHAT GPT CODE SHAME !!!!!!
+
     let nextStatesInterval;
     let statesInterval;
     playButton.addEventListener('click', (event) => {
@@ -137,20 +134,14 @@ gridForm.addEventListener('submit', () => {
         nextStatesInterval = null;
         statesInterval = null;
     })
-    //CHAT GPT CODE SHAME !!!!!!
-        
-    
 })
 
 
-// the game has walls for now
+
 
 //NOTES  :
 
-
-/*instead of a stylepressedbutton function i could
- set a up css classes with named playerButtonpressed / playerButtonunpressed 
-and add them / remove them from the button class when it is pressed is pressed */
-
 /* i should make it so you can't start mousedown oustide the grid then change blocks when you hover
 over the grid while still in mousedown.*/
+
+// the game has walls for now

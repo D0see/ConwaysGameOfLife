@@ -81,6 +81,7 @@ input:hover {
 }
 
 #grid {
+    cursor: pointer;
     text-align: center;
     display: grid;
     width: 80vw;
@@ -111,7 +112,7 @@ input:hover {
     transform: translate(-50%, -50%);
 }
 
-#bottomButtons {
+#player {
     margin: 10px auto 0px;
     padding: 15px 0;
     gap: 2vh;
@@ -138,6 +139,21 @@ input:hover {
                 background-color 0.25s ease;
 }
 
+.pressed {
+    transform: scale(0.90);
+    background-color: lightblue;
+    box-shadow: 2px 2px 2px 0px var(--shadows), 
+                -2px -2px 2px 0px var(--shadows),
+                -2px 2px 2px 0px var(--shadows), 
+                2px -2px 2px 0px var(--shadows);
+}
+
+.unpressed {
+    transform: scale(1);
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px var(--shadows);
+}
+
 .playerButton:hover {
     border-color: rgb(76, 245, 222);
     cursor: pointer;
@@ -150,3 +166,5 @@ input:hover {
                 -2px 2px 2px 0px var(--shadows),
                 2px -2px 2px 0px var(--shadows);
 }
+
+/* I need to make the width height menu look better. */
