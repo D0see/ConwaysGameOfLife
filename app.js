@@ -54,8 +54,6 @@ const advanceButton = document.getElementById('advance');
 const playButton = document.getElementById('play');
 const pauseButton = document.getElementById('stop');
 const arrOfPlayerButtons = [playButton, pauseButton];
-let gridWidth;
-let gridHeight;
 // Form that takes in the input for gridWidth & gridHeight
 const gridForm = document.getElementById('gridForm');
 
@@ -66,12 +64,12 @@ gridForm.addEventListener('submit', (event) => {
     stylePressedButton(undefined, arrOfPlayerButtons);
 
     //resets the grid
-    removeAllChildrens(grid);
+    removeAllChildrens(grid);  
+
 
     //assign the form values
-    gridWidth = document.getElementById('gridWidth').value ;
-    gridHeight = document.getElementById('gridHeight').value;
-    console.log(gridHeight, gridWidth)
+    const gridWidth = document.getElementById('gridWidth').value ;
+    const gridHeight = document.getElementById('gridHeight').value;
 
     //assigns the grid template properties
     grid.style.gridTemplateColumns = `repeat(${gridWidth}, 1fr)`
@@ -91,15 +89,14 @@ gridForm.addEventListener('submit', (event) => {
                 event.preventDefault();
                 playGround[i][j].flipState();
                 selectedState = playGround[i][j].state;
-                console.log(selectedState);
-            
-            })
+            });
+
             visualBlock.addEventListener('mouseover', (event) => {
                 if (event.buttons === 1) {
                     playGround[i][j].changeState(selectedState);
                 }
-            })
-            grid.appendChild(visualBlock);
+            });     
+        grid.appendChild(visualBlock);
         }
     }
 
@@ -116,12 +113,12 @@ gridForm.addEventListener('submit', (event) => {
         if (!nextStatesInterval) {
             nextStatesInterval = setInterval(() => {
                 setsAllNextStates(playGround);
-            }, 750);
+            }, 500);
         }
         if (!statesInterval) {
             statesInterval = setInterval(() => {
                 setsAllStates(playGround);
-            }, 750);
+            }, 500);
         
         }
     })
@@ -143,5 +140,7 @@ gridForm.addEventListener('submit', (event) => {
 
 /* i should make it so you can't start mousedown oustide the grid then change blocks when you hover
 over the grid while still in mousedown.*/
+
+// i should make the from look nicer
 
 // the game has walls for now
