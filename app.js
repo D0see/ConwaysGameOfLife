@@ -9,7 +9,6 @@ const twoDArrayBuilder = (rows, cols) => {
     }
     return board;
 }
-
 //Sets the next state for all blocks
 const updateBoard = (board) => {
     const buffer = [];
@@ -63,6 +62,7 @@ const buildGrid = (grid, playGround, cellColors) => {
         }
     }
 }
+//optimisable <------------------------------
 const updateColors = (grid, playGround, cellColors) => {
     const squares = grid.children;
     const data = playGround.flat();
@@ -137,7 +137,6 @@ gridForm.addEventListener('submit', (event) => {
 
 //NOTES  :
 
-/* i should make it so you can't start mousedown oustide the grid then change blocks when you hover
-over the grid while still in mousedown.*/
 // the game has walls for now
-// -> i wanna make a pattern recognizer
+// i wanna make a pattern recognizer
+// the css is still ugly
