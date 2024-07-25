@@ -152,6 +152,7 @@ input:hover {
                 -2px -2px 2px 0px var(--shadows),
                 -2px 2px 2px 0px var(--shadows), 
                 2px -2px 2px 0px var(--shadows);
+    pointer-events: none;
 }
 
 .unpressed {
