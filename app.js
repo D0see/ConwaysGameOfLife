@@ -94,6 +94,9 @@ function stylePressedButton(button, listOfButtons){
 }
 
 //Global variables
+let playGround;
+let gridHeight;
+let gridWith;
 const grid = document.getElementById('grid');
 const advanceButton = document.getElementById('advance');
 const playButton = document.getElementById('play');
@@ -115,62 +118,61 @@ gridForm.addEventListener('submit', (event) => {
     //resets the buttons
     stylePressedButton(undefined, arrOfPlayerButtons);
     //assign the form values
-    const gridWidth = document.getElementById('gridWidth').value ;
-    const gridHeight = document.getElementById('gridHeight').value;
+    gridWidth = document.getElementById('gridWidth').value ;
+    gridHeight = document.getElementById('gridHeight').value;
     //assigns the grid template properties
     grid.style.gridTemplateColumns = `repeat(${gridWidth}, 1fr)`
     grid.style.gridTemplateRows = `repeat(${gridHeight}, 1fr)`
     //builds the playground based of the stipulated dimensions
-    let playGround = twoDArrayBuilder(gridHeight, gridWidth);
+    playGround = twoDArrayBuilder(gridHeight, gridWidth);
     //build the grid object and populates it with colored divs
     buildGrid(grid, playGround, cellColors);
+})
 
-    // --- PLAYER BUTTONS --- 
+// --- PLAYER BUTTONS --- 
 
-    //Advance button makes the game go to the next frame
-    advanceButton.addEventListener('click', () => {
-        playGround = updateBoard(playGround);
+//Advance button makes the game go to the next frame
+advanceButton.addEventListener('click', () => {
+    playGround = updateBoard(playGround);
+    updateColors(grid, playGround, cellColors);
+
+    //placeholder for better hintbox logic
+    resetAttributes(grid);
+})
+let statesInterval;
+//Play button makes the game go to the next frame every x ms
+playButton.addEventListener('click', () => {
+    stylePressedButton(playButton, arrOfPlayerButtons);
+    statesInterval = setInterval(() => {
+        playGround = updateBoard(playGround)
         updateColors(grid, playGround, cellColors);
 
         //placeholder for better hintbox logic
         resetAttributes(grid);
-    })
-    let statesInterval;
-    //Play button makes the game go to the next frame every x ms
-    playButton.addEventListener('click', () => {
-        stylePressedButton(playButton, arrOfPlayerButtons);
-        statesInterval = setInterval(() => {
-            playGround = updateBoard(playGround)
-            updateColors(grid, playGround, cellColors);
-
-            //placeholder for better hintbox logic
-            resetAttributes(grid);
-        }, 1000);
-    })
-    pauseButton.addEventListener('click', () => {
-        stylePressedButton(pauseButton, arrOfPlayerButtons);
-        clearInterval(statesInterval);
-        // Reset the interval IDs
-        statesInterval = null;
-    })
-    //very optimisable <------------------------------------------
-    analyzeButton.addEventListener('click', () => {
-        const patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
-        if (!patterns.length) {return;}
-        console.log(patterns)
-        const squares = grid.children;
-        for (const pattern of patterns) {
-            for (const coordinate of pattern['coordinates']) {
-                console.log(coordinate)
-                const numOfSquare = (coordinate[0] * gridWidth) + coordinate[1];
-                squares[numOfSquare].style.backgroundColor = 'yellow';
-                //PLACEHOLDER 
-                squares[numOfSquare].setAttribute('title', patternLibrary[pattern['id']]['name'])
-            }
-        }
-    })
+    }, 1000);
 })
-
+pauseButton.addEventListener('click', () => {
+    stylePressedButton(pauseButton, arrOfPlayerButtons);
+    clearInterval(statesInterval);
+    // Reset the interval IDs
+    statesInterval = null;
+})
+//very optimisable <------------------------------------------
+analyzeButton.addEventListener('click', () => {
+    const patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
+    if (!patterns.length) {return;}
+    const squares = grid.children;
+    for (const pattern of patterns) {
+        for (const coordinate of pattern['coordinates']) {
+            const numOfSquare = (coordinate[0] * gridWidth) + coordinate[1];
+            squares[numOfSquare].style.backgroundColor = 'yellow';
+            //PLACEHOLDER 
+            squares[numOfSquare].setAttribute('title', patternLibrary[pattern['id']]['name'])
+        }
+    }
+})
+//Bugs :
+// once found the pattern keep popping back after a new grid is generated fixed
 //NOTES  :
 
 //swap all function declaration for arrows function declaration
