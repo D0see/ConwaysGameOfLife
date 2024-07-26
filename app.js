@@ -1,3 +1,5 @@
+import patternRecognition from "./patternRecognition.mjs";
+
 //Creates the 2D array based on the received width & height 
 const twoDArrayBuilder = (rows, cols) => {
     const board = [];
@@ -71,6 +73,13 @@ const updateColors = (grid, playGround, cellColors) => {
     }
 } 
 
+const resetAttributes = (grid) => {
+    const squares = grid.children;
+    for (const square of squares) {
+        square.removeAttribute('title');
+    }
+}
+
 //Style the pressed button and resets the others TO CHANGE
 function stylePressedButton(button, listOfButtons){
     listOfButtons.forEach(element => {
@@ -89,11 +98,14 @@ const grid = document.getElementById('grid');
 const advanceButton = document.getElementById('advance');
 const playButton = document.getElementById('play');
 const pauseButton = document.getElementById('stop');
+const analyzeButton = document.getElementById('analyze');
 const arrOfPlayerButtons = [playButton, pauseButton];
 // Form that takes in the input for gridWidth & gridHeight
 const gridForm = document.getElementById('gridForm');
 //colors
 const cellColors = {'dead': 'grey', 'alive' : 'white'};
+//pattern library 
+const patternLibrary = patternRecognition.patternLibrary;
 
 gridForm.addEventListener('submit', (event) => {
     //prevents the page from reloading on submit
@@ -112,12 +124,17 @@ gridForm.addEventListener('submit', (event) => {
     let playGround = twoDArrayBuilder(gridHeight, gridWidth);
     //build the grid object and populates it with colored divs
     buildGrid(grid, playGround, cellColors);
+
+    // --- PLAYER BUTTONS --- 
+
     //Advance button makes the game go to the next frame
     advanceButton.addEventListener('click', () => {
-        playGround = updateBoard(playGround)
-        updateColors(grid, playGround, cellColors)
-    })
+        playGround = updateBoard(playGround);
+        updateColors(grid, playGround, cellColors);
 
+        //placeholder for better hintbox logic
+        resetAttributes(grid);
+    })
     let statesInterval;
     //Play button makes the game go to the next frame every x ms
     playButton.addEventListener('click', () => {
@@ -125,6 +142,9 @@ gridForm.addEventListener('submit', (event) => {
         statesInterval = setInterval(() => {
             playGround = updateBoard(playGround)
             updateColors(grid, playGround, cellColors);
+
+            //placeholder for better hintbox logic
+            resetAttributes(grid);
         }, 1000);
     })
     pauseButton.addEventListener('click', () => {
@@ -133,10 +153,31 @@ gridForm.addEventListener('submit', (event) => {
         // Reset the interval IDs
         statesInterval = null;
     })
+    //very optimisable <------------------------------------------
+    analyzeButton.addEventListener('click', () => {
+        const patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
+        if (!patterns.length) {return;}
+        console.log(patterns)
+        const squares = grid.children;
+        for (const pattern of patterns) {
+            for (const coordinate of pattern['coordinates']) {
+                console.log(coordinate)
+                const numOfSquare = (coordinate[0] * gridWidth) + coordinate[1];
+                squares[numOfSquare].style.backgroundColor = 'yellow';
+                //PLACEHOLDER 
+                squares[numOfSquare].setAttribute('title', patternLibrary[pattern['id']]['name'])
+            }
+        }
+    })
 })
 
 //NOTES  :
 
+//swap all function declaration for arrows function declaration
 // the game has walls for now
 // i wanna make a pattern recognizer
+// -> make custom good looking hintbox
+// -> make it so you can search for specific patterns
+// -> the color should reflect the nature of the pattern
 // the css is still ugly
+// re-organize the code, especially the app.js should be divied in multiple files
