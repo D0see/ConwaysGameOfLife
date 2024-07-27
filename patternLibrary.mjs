@@ -1,5 +1,4 @@
-
-export default patternLibrary = {
+const patternLibrary = {
     '[[0,0],[0,1],[0,2]]' : {
         'name' : 'blinker',
         'description' : 'a very common simple oscilating pattern'
@@ -13,3 +12,5 @@ export default patternLibrary = {
         'description' : 'the simplest form of still-life'
     }
 }
+
+export default patternLibrary;

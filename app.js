@@ -1,4 +1,5 @@
 import patternRecognition from "./patternRecognition.mjs";
+import patternLibrary from "./patternLibrary.mjs";
 
 //Creates the 2D array based on the received width & height 
 const twoDArrayBuilder = (rows, cols) => {
@@ -81,7 +82,7 @@ const resetAttributes = (grid) => {
 }
 
 //Style the pressed button and resets the others TO CHANGE
-function stylePressedButton(button, listOfButtons){
+const stylePressedButton = (button, listOfButtons) => {
     listOfButtons.forEach(element => {
         if (element === button) {
             element.classList.remove('unpressed');
@@ -108,7 +109,6 @@ const gridForm = document.getElementById('gridForm');
 //colors
 const cellColors = {'dead': 'grey', 'alive' : 'white'};
 //pattern library 
-const patternLibrary = patternRecognition.patternLibrary;
 
 gridForm.addEventListener('submit', (event) => {
     //prevents the page from reloading on submit
@@ -171,8 +171,6 @@ analyzeButton.addEventListener('click', () => {
         }
     }
 })
-//Bugs :
-// once found the pattern keep popping back after a new grid is generated fixed
 //NOTES  :
 
 //swap all function declaration for arrows function declaration
