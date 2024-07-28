@@ -1,54 +1,29 @@
-/*
+// This file is only use to generate IDS for new patterns.
 
-const patternLibrary = {
-    '[[0,0],[0,1],[0,2]]' : {
-        'name' : 'blinker',
-        'type' : 'oscillator',
-        'description' : 'the most common simple oscilating pattern'
-    },
-    '[[0,0],[1,0],[2,0]]' : {
-        'name' : 'blinker',
-        'type' : 'oscillator',
-        'description' : 'the most common oscilating pattern'
-    },
-    '[[0,0],[1,0],[0,1],[1,1]]' : {
-        'name' : 'square',
-        'type' : 'still-life',
-        'description' : 'the simplest form of still-life'
-    },
-    '[[0,0],[0,1],[-1,2],[-2,1],[0,2]]' : {
-        'name' : 'glider',
-        'type' : 'spaceship',
-        'description' : 'the smallest type of spaceship, seen here going 1'
-    },
-    '[[0,0],[1,1],[0,2],[-1,2],[1,2]]'
-
-    '[[0,0],[-1,1],[-1,2],[0,2],[1,2]]' : {
-        'name' : 'glider',
-        'type' : 'spaceship',
-        'description' : 'the smallest type of spaceship, seen here going 2'
-    },
-     '[[0,0],[1,0],[1,1],[1,2],[-1,1]]'
-
-    '[[0,0],[1,0],[0,1],[0,2],[2,1]]' : {
-        'name' : 'glider',
-        'type' : 'spaceship',
-        'description' : 'the smallest type of spaceship, seen here going 3'
-    },
-    '[[0,0],[1,0],[2,0],[0,1],[1,2]]',
-    
-    '[[0,0],[1,0],[2,0],[2,1],[1,2]]' : {
-        'name' : 'glider',
-        'type' : 'spaceship',
-        'description' : 'the smallest type of spaceship, seen here going 4'
-    },
-    '[[0,0],[0,1],[0,2],[1,2],[2,1]]'
-
+const updateBoard = (board) => {
+    tempBoard = JSON.parse(JSON.stringify(board));
+    const buffer = [];
+    for (let i = 0; i < tempBoard.length + 2; i++) {
+        for (let j = 0; j < tempBoard[0].length; j++) {
+            let counter = 0;
+            tempBoard[i - 1]?.[j - 1] ? counter++ : '';
+            tempBoard[i - 1]?.[j] ? counter++ : '';
+            tempBoard[i - 1]?.[j + 1] ? counter++ : '';
+            tempBoard[i]?.[j - 1] ? counter++ : '';
+            tempBoard[i]?.[j + 1] ? counter++ : '';
+            tempBoard[i + 1]?.[j - 1] ? counter++ : '';
+            tempBoard[i + 1]?.[j] ? counter++ : '';
+            tempBoard[i + 1]?.[j + 1] ? counter++ : '';
+            //push the next state to the buffer queue
+            buffer.push(tempBoard[i]?.[j] ? counter > 1 && counter < 4 : counter ===  3);
+            //after the algorithm reaches the 3rd row, start updating 2 rows up
+            if (i > 1) {tempBoard[i - 2][j] = buffer.shift();}
+        } 
+    }
+    return tempBoard;
 }
 
-*/
-
-// returns an object with pattern id & pattern location, modifies the grid in place;
+// returns the pattern Id, modifies the grid in place (MUST CALL ONLY THROUGH collectPattern below);
 const identifyPattern = (grid, i, j, x, y, pattern) => {
     if (!grid[i]?.[j]) {return;}
     pattern.push([x, y]);
@@ -65,8 +40,8 @@ const identifyPattern = (grid, i, j, x, y, pattern) => {
     return pattern;
 }
 
-//returns all patterns in the board
-const collectPatterns = (board) => {
+//returns the pattern on the board
+const collectPattern = (board) => {
     const tempBoard = JSON.parse(JSON.stringify(board));
     for (let i = 0; i < tempBoard.length; i++) {
         for (let j = 0; j < tempBoard[0].length; j++) {
@@ -79,7 +54,7 @@ const collectPatterns = (board) => {
 }
 
 //returns a new array, rotated 90° to the right
-const rotateArray = (grid) => {
+const rotateGrid = (grid) => {
     const newGrid = [];
     for (let i = 0; i < grid.length; i++) {
         newGrid.push([]);
@@ -90,14 +65,48 @@ const rotateArray = (grid) => {
     return newGrid;
 }
 
+let test = [[false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false],
+            [false, false, false, true, true, false, false],
+            [false, false, true, false, false, true, false],
+            [false, false, true, false, true, false, false],
+            [false, false, false, true, false, false, false],
+            [false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false]];
 
-let test = [[false, true , false],
-            [false, false , true],
-            [true, true , true]];
+let test1 = [[false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false],
+            [false, false, false, true, false, false, false],
+            [false, true, false, true, false, false, false],
+            [false, false, true, true, false, false, false],
+            [false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false]];
 
-const patterns = [];
-for (let i = 0; i < 4; i++) {
-    patterns.push(collectPatterns(test));
-    test = rotateArray(test);
+//return the IDs of every frames of the tested pattern
+const getEveryFrames = (grid) => {
+    let tempGrid = JSON.parse(JSON.stringify(grid));
+    const originalPattern = collectPattern(tempGrid);
+    const patterns = [originalPattern];
+    while(true) {
+        tempGrid = updateBoard(tempGrid);
+        const newPattern = collectPattern(tempGrid);
+        if (originalPattern === newPattern) {break;}
+        patterns.push(newPattern)
+    }
+    return patterns;
 }
-console.log(patterns);
+
+//return a list of the IDS of every frames of the tested pattern for every orientations
+const getFramesForAllOrientations = (grid) => {
+    const listOfPatterns = [];
+    for (let i = 0; i < 4; i++) {
+        listOfPatterns.push(getEveryFrames(grid));
+        grid = rotateGrid(grid);
+    }
+    return listOfPatterns;
+}
+    
+
+console.log(getFramesForAllOrientations(test));
+

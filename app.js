@@ -173,6 +173,7 @@ analyzeButton.addEventListener('click', () => {
 })
 //NOTES  :
 
+//export patternRecognition as default
 //swap all function declaration for arrows function declaration
 // the game has walls for now
 // i wanna make a pattern recognizer
