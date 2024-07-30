@@ -129,7 +129,7 @@ gridForm.addEventListener('submit', (event) => {
     buildGrid(grid, playGround, cellColors);
 })
 
-// --- PLAYER BUTTONS --- 
+// --- PLAYER BUTTONS --- //
 
 //Advance button makes the game go to the next frame
 advanceButton.addEventListener('click', () => {
@@ -182,3 +182,5 @@ analyzeButton.addEventListener('click', () => {
 // -> the color should reflect the nature of the pattern
 // the css is still ugly
 // re-organize the code, especially the app.js should be divied in multiple files
+
+//PatternIDGenerator -> make an object builder based on the outputted list (as to automate the pattern addition process);

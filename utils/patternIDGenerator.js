@@ -1,4 +1,4 @@
-// This file is only use to generate IDS for new patterns.
+// This file is only used to generate IDS for continuous patterns
 
 const updateBoard = (board) => {
     tempBoard = JSON.parse(JSON.stringify(board));
@@ -65,6 +65,7 @@ const rotateGrid = (grid) => {
     return newGrid;
 }
 
+//Draw your pattern here, make sur to give it enough room to do a full cycle
 let test = [[false, false, false, false, false, false, false],
             [false, false, false, false, false, false, false],
             [false, false, false, true, true, false, false],
@@ -97,6 +98,7 @@ const getEveryFrames = (grid) => {
     return patterns;
 }
 
+// must add a check that the third pattern isnt the same as the first one <------------------------------------------------------------
 //return a list of the IDS of every frames of the tested pattern for every orientations
 const getFramesForAllOrientations = (grid) => {
     const listOfPatterns = [];
@@ -107,6 +109,26 @@ const getFramesForAllOrientations = (grid) => {
     return listOfPatterns;
 }
     
+const listOfPatterns = getFramesForAllOrientations(test1);
 
-console.log(getFramesForAllOrientations(test));
+//type the name, type and description here
+const patName = 'placeholder name';
+const patType = listOfPatterns[0].length <= 1 ? 'still-life' : 'placeholder type';
+const patDescription = 'placeholder description';
+
+const library = [];
+for (const pattern of listOfPatterns) {
+    for (let i = 0; i < pattern.length; i++) {
+        library[`${pattern[i]}`] = {
+            'name' : patName,
+            'type' : patType,
+            'description' : patDescription
+        }
+        if (pattern.length > 1) {library[`${pattern[i]}`]['stage'] = `${i + 1} / ${pattern.length}`}
+    }
+
+}
+
+
+console.log(library);
 
