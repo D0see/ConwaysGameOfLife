@@ -112,9 +112,9 @@ const getFramesForAllOrientations = (grid) => {
 const listOfPatterns = getFramesForAllOrientations(test1);
 
 //type the name, type and description here
-const patName = 'placeholder name';
-const patType = listOfPatterns[0].length <= 1 ? 'still-life' : 'placeholder type';
-const patDescription = 'placeholder description';
+const patName = 'glider';
+const patType = listOfPatterns[0].length <= 1 ? 'still life' : 'spaceship';
+const patDescription = 'the smallest, most common, and first-discovered spaceship in Game of Life';
 
 const library = [];
 for (const pattern of listOfPatterns) {
