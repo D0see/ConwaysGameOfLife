@@ -157,7 +157,7 @@ pauseButton.addEventListener('click', () => {
     // Reset the interval IDs
     statesInterval = null;
 })
-//very optimisable <------------------------------------------
+//very optimisable <------------------------------------------ PLACE HOLDER FOR CUSTOM HINTBOXLOGIC
 analyzeButton.addEventListener('click', () => {
     const patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
     if (!patterns.length) {return;}
@@ -167,7 +167,7 @@ analyzeButton.addEventListener('click', () => {
             const numOfSquare = (coordinate[0] * gridWidth) + coordinate[1];
             squares[numOfSquare].style.backgroundColor = 'yellow';
             //PLACEHOLDER 
-            squares[numOfSquare].setAttribute('title', patternLibrary[pattern['id']]['name'])
+            squares[numOfSquare].setAttribute('title', `${patternLibrary[pattern['id']]['name'].toUpperCase()} : ${patternLibrary[pattern['id']]['description']}`)
         }
     }
 })

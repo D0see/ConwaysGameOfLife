@@ -1,4 +1,4 @@
-// This file is only used to generate IDS for continuous patterns
+// This file is only used to generate data for continuous patterns
 
 const updateBoard = (board) => {
     tempBoard = JSON.parse(JSON.stringify(board));
