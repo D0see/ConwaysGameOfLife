@@ -65,11 +65,11 @@ const rotateGrid = (grid) => {
     return newGrid;
 }
 
-//Draw your pattern here, make sur to give it enough room to do a full cycle
+//Draw your pattern here, make sur to give it enough room for it to do a full cycle
 let test = [[false, false, false, false, false, false, false],
             [false, false, false, false, false, false, false],
-            [false, false, false, true, true, false, false],
-            [false, false, true, false, false, true, false],
+            [false, false, false, false, false, false, false],
+            [false, false, false, true, false, false, false],
             [false, false, true, false, true, false, false],
             [false, false, false, true, false, false, false],
             [false, false, false, false, false, false, false],
@@ -109,12 +109,12 @@ const getFramesForAllOrientations = (grid) => {
     return listOfPatterns;
 }
     
-const listOfPatterns = getFramesForAllOrientations(test1);
+const listOfPatterns = getFramesForAllOrientations(test);
 
 //type the name, type and description here
-const patName = 'glider';
-const patType = listOfPatterns[0].length <= 1 ? 'still life' : 'spaceship';
-const patDescription = 'the smallest, most common, and first-discovered spaceship in Game of Life';
+const patName = 'tub';
+const patType = listOfPatterns[0].length <= 1 ? 'still life' : 'placeholder';
+const patDescription = 'tub is one of only two 4-cell still lifes (the other being the block).';
 
 const library = [];
 for (const pattern of listOfPatterns) {
@@ -124,7 +124,7 @@ for (const pattern of listOfPatterns) {
             'type' : patType,
             'description' : patDescription
         }
-        if (pattern.length > 1) {library[`${pattern[i]}`]['stage'] = `${i + 1} / ${pattern.length}`}
+        if (pattern.length > 1) {library[`${pattern[i]}`]['step'] = `${i + 1} / ${pattern.length}`}
     }
 
 }

@@ -184,3 +184,5 @@ analyzeButton.addEventListener('click', () => {
 // re-organize the code, especially the app.js should be divied in multiple files
 
 //PatternIDGenerator -> make an object builder based on the outputted list (as to automate the pattern addition process);
+
+//i should build a pattern recognition logic that uses convolution so i could detect non-continuous pattern
