@@ -100,9 +100,34 @@ input:hover {
     border: 5px solid darkgrey;
 }
 
-.block{
-    background-color: grey;
-    transition: background-color 0.10s cubic-bezier(.17,.67,.3,.94);
+.oscillatorBlock {
+    background: linear-gradient(90deg, rgba(177, 72, 226, 0.60) 0%, rgba(177, 72, 226, 0.85) 50%, rgba(177, 72, 226, 0.60) 100%);     
+    animation: moving-background 6s linear infinite;
+    background-size: 500% 500%;
+    transition: background-color 0.25s ease;
+}
+
+.stillLifeBlock {
+    background: linear-gradient(90deg, rgba(72, 221, 226, 0.60) 0%, rgba(72, 221, 226, 0.85) 50%, rgba(72, 221, 226, 0.60) 100%);     
+    animation: moving-background 6s linear infinite;
+    background-size: 500% 500%;
+    transition: background-color 0.25s ease;
+}
+
+.spaceshipBlock {
+    background: linear-gradient(90deg, rgba(226, 72, 111, 0.60) 0%, rgba(226, 72, 111, 0.85) 50%, rgba(226, 72, 111, 0.60) 100%);     
+    animation: moving-background 6s linear infinite;
+    background-size: 500% 500%;
+    transition: background-color 0.25s ease;
+}
+
+@keyframes moving-background {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 500% 0%;
+    }
 }
 
 .block:hover {

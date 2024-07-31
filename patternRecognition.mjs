@@ -16,7 +16,7 @@ const identifyPattern = (board, i, j, x, y, pattern) => {
     return pattern;
 }
 
-//returns all patterns in the board
+//returns all patterns in the board whos ids are in the library
 const collectPatterns = (board, patternLibrary) => {
     const tempBoard = JSON.parse(JSON.stringify(board));
     const patterns = [];

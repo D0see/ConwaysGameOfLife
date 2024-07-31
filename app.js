@@ -51,12 +51,18 @@ const buildGrid = (grid, playGround, cellColors) => {
             visualBlock.style.backgroundColor = cellColors.dead;
             visualBlock.addEventListener('mousedown', (event) => {
                 event.preventDefault();
+                //edgecase handling to remove type class & title after analysis
+                visualBlock.removeAttribute('title');
+                visualBlock.removeAttribute('class');
                 playGround[i][j] = !playGround[i][j];
                 visualBlock.style.backgroundColor = playGround[i][j] ? cellColors.alive : cellColors.dead;
                 selectedState = playGround[i][j];
             });
             visualBlock.addEventListener('mouseover', (event) => {
                 if (event.buttons === 1) {
+                    //edgecase handling to remove type class & title after analysis
+                    visualBlock.removeAttribute('title');
+                    visualBlock.removeAttribute('class');
                     playGround[i][j] = selectedState;
                     visualBlock.style.backgroundColor = selectedState ? cellColors.alive : cellColors.dead;
                 }
@@ -65,6 +71,7 @@ const buildGrid = (grid, playGround, cellColors) => {
         }
     }
 }
+
 //optimisable <------------------------------
 const updateColors = (grid, playGround, cellColors) => {
     const squares = grid.children;
@@ -78,6 +85,7 @@ const resetAttributes = (grid) => {
     const squares = grid.children;
     for (const square of squares) {
         square.removeAttribute('title');
+        square.removeAttribute('class');
     }
 }
 
@@ -165,7 +173,20 @@ analyzeButton.addEventListener('click', () => {
     for (const pattern of patterns) {
         for (const coordinate of pattern['coordinates']) {
             const numOfSquare = (coordinate[0] * gridWidth) + coordinate[1];
-            squares[numOfSquare].style.backgroundColor = 'yellow';
+            squares[numOfSquare].classList.add('highlightedBlock');
+            //determines squre color
+            switch(patternLibrary[pattern['id']]['type']) {
+                case 'still life' :
+                    squares[numOfSquare].classList.add('stillLifeBlock');
+                    break;
+                case 'oscillator' :
+                    squares[numOfSquare].classList.add('oscillatorBlock');
+                    break;
+                case 'spaceship' :
+                    squares[numOfSquare].classList.add('spaceshipBlock');
+                    break;
+            }
+            //squares[numOfSquare].style.backgroundColor = 'yellow';
             //PLACEHOLDER 
             squares[numOfSquare].setAttribute('title', `${patternLibrary[pattern['id']]['name'].toUpperCase()} : ${patternLibrary[pattern['id']]['description']}`)
         }
