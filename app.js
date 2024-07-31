@@ -116,7 +116,8 @@ const arrOfPlayerButtons = [playButton, pauseButton];
 const gridForm = document.getElementById('gridForm');
 //colors
 const cellColors = {'dead': 'grey', 'alive' : 'white'};
-//pattern library 
+//play speed
+const delayBetweenTwoFrames = 600;
 
 gridForm.addEventListener('submit', (event) => {
     //prevents the page from reloading on submit
@@ -157,7 +158,7 @@ playButton.addEventListener('click', () => {
 
         //placeholder for better hintbox logic
         resetAttributes(grid);
-    }, 1000);
+    }, delayBetweenTwoFrames);
 })
 pauseButton.addEventListener('click', () => {
     stylePressedButton(pauseButton, arrOfPlayerButtons);
