@@ -15,24 +15,15 @@ html {
 /* Header */
 
 #gridForm {
-    position: relative;
-    bottom: 45px;
-    background-color: white;
-    width: 90vw;
-    max-width: 70vh;
-    margin: 0 auto;
-    padding: 25px 0;
-    gap: 2%;
-    display: flex;
-    justify-content: center;
-    border-radius: 5px;
-    box-shadow: 2px 2px 2px 2px var(--shadows);
-    transition: bottom 0.35s ease;
-    border: 3px solid darkgrey;
+    margin-bottom: 35px;
 }
 
-#gridForm:hover {
-    bottom: 20px;
+.gridAndHeight {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 15vw;
+    margin: 10px auto 0px;
 }
 
 input {
@@ -52,10 +43,14 @@ input:hover {
     align-items: center;
 }
 
+#gridHeightContainer {
+    /* align input right */
+}
+
 #generateGrid {
     position: relative;
-    top: 50px;
-    left: 25px;
+    margin: auto;
+    top: 15px;
     height: 6vh;
     min-height: 100px;
     width: 6vh;
@@ -99,21 +94,21 @@ input:hover {
 
 .oscillatorBlock {
     background: linear-gradient(90deg, rgba(177, 72, 226, 0.60) 0%, rgba(177, 72, 226, 0.85) 50%, rgba(177, 72, 226, 0.60) 100%);     
-    animation: moving-background 6s linear infinite;
+    animation: moving-background 5s linear infinite;
     background-size: 500% 500%;
     transition: background-color 0.25s ease;
 }
 
 .stillLifeBlock {
     background: linear-gradient(90deg, rgba(72, 221, 226, 0.60) 0%, rgba(72, 221, 226, 0.85) 50%, rgba(72, 221, 226, 0.60) 100%);     
-    animation: moving-background 6s linear infinite;
+    animation: moving-background 5s linear infinite;
     background-size: 500% 500%;
     transition: background-color 0.25s ease;
 }
 
 .spaceshipBlock {
     background: linear-gradient(90deg, rgba(226, 72, 111, 0.60) 0%, rgba(226, 72, 111, 0.85) 50%, rgba(226, 72, 111, 0.60) 100%);     
-    animation: moving-background 6s linear infinite;
+    animation: moving-background 5s linear infinite;
     background-size: 500% 500%;
     transition: background-color 0.25s ease;
 }
