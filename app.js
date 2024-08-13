@@ -1,5 +1,5 @@
 import patternRecognition from "./patternRecognition.mjs";
-import patternLibrary from "./patternLibrary.mjs";
+import patternLibrary from "./ContinuousPatternLibrary.mjs";
 
 //Creates the 2D array based on the received width & height 
 const twoDArrayBuilder = (rows, cols) => {
@@ -169,6 +169,7 @@ pauseButton.addEventListener('click', () => {
 //very optimisable <------------------------------------------ PLACE HOLDER FOR CUSTOM HINTBOXLOGIC
 analyzeButton.addEventListener('click', () => {
     const patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
+    console.log(patterns) /// for testing purposes
     if (!patterns.length) {return;}
     const squares = grid.children;
     for (const pattern of patterns) {
