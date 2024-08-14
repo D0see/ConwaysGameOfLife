@@ -165,6 +165,7 @@ const patternLibrary = {
         description: 'the smallest, most common, and first-discovered spaceship in Game of Life.',
         step: '4 / 4'
     }
+    // discontinued patterns
 }
 
 export default patternLibrary;

@@ -1,5 +1,5 @@
 import patternRecognition from "./patternRecognition.mjs";
-import patternLibrary from "./ContinuousPatternLibrary.mjs";
+import patternLibrary from "./PatternLibrary.mjs";
 
 //Creates the 2D array based on the received width & height 
 const twoDArrayBuilder = (rows, cols) => {
