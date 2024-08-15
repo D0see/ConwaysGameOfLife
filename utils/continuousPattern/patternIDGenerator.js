@@ -46,8 +46,8 @@ const collectPattern = (board) => {
     for (let i = 0; i < tempBoard.length; i++) {
         for (let j = 0; j < tempBoard[0].length; j++) {
             if (tempBoard[i][j]) {
-                let patternObj = identifyPattern(tempBoard, i, j, 0, 0, [])
-                return JSON.stringify(patternObj);
+                let patternID = identifyPattern(tempBoard, i, j, 0, 0, [])
+                return JSON.stringify(patternID);
             }
         }
     }

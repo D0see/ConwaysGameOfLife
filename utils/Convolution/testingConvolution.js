@@ -75,8 +75,17 @@ const patternIDGenerator = (pattern) => {
         coord[0] -= originY;
         coord[1] -= originX;
     }
+    //get the lowest X coordinates (to offset by lowestX*-1 if its a negative value)
+    let tempX = [];
+    for (const coord of id) {tempX.push(coord[1]);}
+    let offsetX = Math.min(...tempX) * -1;
+    if (offsetX) {
+        for (const coord of id) {coord[1] += offsetX}
+    }
     return JSON.stringify(id);
 }           
+
+patternIDGenerator(pattern);
 
 const getEveryFrames = (grid) => {
     let tempGrid = JSON.parse(JSON.stringify(grid));
@@ -100,28 +109,47 @@ const getFramesForAllOrientations = (grid) => {
     return listOfPatterns;
 }
 
-const listOfPatterns = getFramesForAllOrientations(pattern);
+const listOfPatternsGroups = getFramesForAllOrientations(pattern);
+console.log(listOfPatternsGroups);
+
+
+//windowsize is used to determine the size of the convolution window
+const getWindowSize = (patternID) => {
+    let tempID = JSON.parse(patternID);
+    const Ys = [];
+    const Xs = [];
+    for (const coord of tempID) {
+        Ys.push(coord[0]);
+        Xs.push(coord[1]);
+    }
+    return [Math.max(...Ys) + 1, Math.max(...Xs) + 1];
+}
 
 //type the name, type and description here
 const patName = 'c/2 orthogonal';
-const patType = listOfPatterns[0].length <= 1 ? 'still life' : 'spaceship';
+const patType = listOfPatternsGroups[0].length <= 1 ? 'still life' : 'spaceship';
 const patDescription = 'c/2 orthogonal was the second spaceship speed to be discovered';
 
-const library = [];
-for (const pattern of listOfPatterns) {
-    for (let i = 0; i < pattern.length; i++) {
-        library[`${pattern[i]}`] = {
+const library = {};
+for (const patternGroup of listOfPatternsGroups) {
+    for (let i = 0; i < patternGroup.length; i++) {
+        if (!library[`${getWindowSize(patternGroup[i])}`]) {
+            library[`${getWindowSize(patternGroup[i])}`] = {};
+        }
+        library[`${getWindowSize(patternGroup[i])}`][patternGroup[i]] = {
             'name' : patName,
             'type' : patType,
-            'description' : patDescription
+            'description' : patDescription,
+
         }
-        if (pattern.length > 1) {library[`${pattern[i]}`]['step'] = `${i + 1} / ${pattern.length}`}
+        if (patternGroup.length > 1) {library[`${getWindowSize(patternGroup[i])}`][`${patternGroup[i]}`]['step'] = `${i + 1} / ${patternGroup.length}`}
     }
 
 }
 
+console.log(library)
 
-console.log(library);
+//console.log(library);
 
 
 const testPatternObj = {
