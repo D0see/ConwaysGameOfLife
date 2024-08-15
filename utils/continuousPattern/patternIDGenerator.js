@@ -56,9 +56,9 @@ const collectPattern = (board) => {
 //returns a new array, rotated 90° to the right
 const rotateGrid = (grid) => {
     const newGrid = [];
-    for (let i = 0; i < grid.length; i++) {
+    for (let i = 0; i < grid[0].length; i++) {
         newGrid.push([]);
-        for (let j = 0; j < grid[0].length; j++) {
+        for (let j = 0; j < grid.length; j++) {
             newGrid[i].push(grid[j][grid[0].length - 1 - i]);
         }
     }

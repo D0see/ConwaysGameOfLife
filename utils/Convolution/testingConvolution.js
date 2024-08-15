@@ -21,6 +21,17 @@ const updateBoard = (board) => {
     }
     return tempBoard;
 }
+
+const rotateGrid = (grid) => {
+    const newGrid = [];
+    for (let i = 0; i < grid[0].length; i++) {
+        newGrid.push([]);
+        for (let j = 0; j < grid.length; j++) {
+            newGrid[i].push(grid[j][grid[0].length - 1 - i]);
+        }
+    }
+    return newGrid;
+}
 //
 
 const pattern = [
@@ -57,26 +68,39 @@ const patternIDGenerator = (pattern) => {
             }
         }
     }
-    //offset the coordinates values so it starts a 0
-    const tempY = id[0][0];
-    const tempX = id[0][1];
+    //offset all coordinates by the origin/first coordiantes pair value
+    const originY = id[0][0];
+    const originX = id[0][1];
     for (const coord of id) {
-        coord[0] -= tempY;
-        coord[1] -= tempX;
+        coord[0] -= originY;
+        coord[1] -= originX;
     }
     return JSON.stringify(id);
-}            
+}           
 
-console.log(patternIDGenerator(pattern));
-let updatedPattern = updateBoard(pattern);
-console.log(patternIDGenerator(updatedPattern));
-updatedPattern = updateBoard(updatedPattern);
-console.log(patternIDGenerator(updatedPattern));
-updatedPattern = updateBoard(updatedPattern);
-console.log(patternIDGenerator(updatedPattern));
-updatedPattern = updateBoard(updatedPattern);
-//should be the same as the first one
-console.log(patternIDGenerator(updatedPattern));
+const getEveryFrames = (grid) => {
+    let tempGrid = JSON.parse(JSON.stringify(grid));
+    const originalPattern = patternIDGenerator(tempGrid);
+    const patterns = [originalPattern];
+    while(true) {
+        tempGrid = updateBoard(tempGrid);
+        const newPattern = patternIDGenerator(tempGrid);
+        if (originalPattern === newPattern) {break;}
+        patterns.push(newPattern)
+    }
+    return patterns;
+}
+
+const getFramesForAllOrientations = (grid) => {
+    const listOfPatterns = [];
+    for (let i = 0; i < 4; i++) {
+        listOfPatterns.push(getEveryFrames(grid));
+        grid = rotateGrid(grid);
+    }
+    return listOfPatterns;
+}
+
+console.log(getFramesForAllOrientations(pattern));
 
 const testPatternObj = {
     'id' : patternIDGenerator(pattern),
