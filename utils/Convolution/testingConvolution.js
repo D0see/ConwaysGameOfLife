@@ -100,7 +100,29 @@ const getFramesForAllOrientations = (grid) => {
     return listOfPatterns;
 }
 
-console.log(getFramesForAllOrientations(pattern));
+const listOfPatterns = getFramesForAllOrientations(pattern);
+
+//type the name, type and description here
+const patName = 'c/2 orthogonal';
+const patType = listOfPatterns[0].length <= 1 ? 'still life' : 'spaceship';
+const patDescription = 'c/2 orthogonal was the second spaceship speed to be discovered';
+
+const library = [];
+for (const pattern of listOfPatterns) {
+    for (let i = 0; i < pattern.length; i++) {
+        library[`${pattern[i]}`] = {
+            'name' : patName,
+            'type' : patType,
+            'description' : patDescription
+        }
+        if (pattern.length > 1) {library[`${pattern[i]}`]['step'] = `${i + 1} / ${pattern.length}`}
+    }
+
+}
+
+
+console.log(library);
+
 
 const testPatternObj = {
     'id' : patternIDGenerator(pattern),
@@ -168,4 +190,7 @@ const checkGrid = (grid, patternObj) => {
 
 collectedPatterns = checkGrid(grid, testPatternObj);
 
-console.log(collectedPatterns);
+//console.log(collectedPatterns);
+
+
+//Maybe i should pattern search for every different width/height couples of registered patterns and check for matches based the library
