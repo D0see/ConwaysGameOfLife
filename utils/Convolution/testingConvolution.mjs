@@ -1,6 +1,8 @@
+import DiscontinuedPatternsLibrary from "./DiscontinuedPatterns.mjs";
+
 // Imported functions
 const updateBoard = (board) => {
-    tempBoard = JSON.parse(JSON.stringify(board));
+    const tempBoard = JSON.parse(JSON.stringify(board));
     const buffer = [];
     for (let i = 0; i < tempBoard.length + 2; i++) {
         for (let j = 0; j < tempBoard[0].length; j++) {
@@ -109,9 +111,6 @@ const getFramesForAllOrientations = (grid) => {
     return listOfPatterns;
 }
 
-const listOfPatternsGroups = getFramesForAllOrientations(pattern);
-console.log(listOfPatternsGroups);
-
 
 //windowsize is used to determine the size of the convolution window
 const getWindowSize = (patternID) => {
@@ -127,62 +126,60 @@ const getWindowSize = (patternID) => {
 
 //type the name, type and description here
 const patName = 'c/2 orthogonal';
-const patType = listOfPatternsGroups[0].length <= 1 ? 'still life' : 'spaceship';
+const patType = 'spaceship';
 const patDescription = 'c/2 orthogonal was the second spaceship speed to be discovered';
 
-const library = {};
-for (const patternGroup of listOfPatternsGroups) {
-    for (let i = 0; i < patternGroup.length; i++) {
-        if (!library[`${getWindowSize(patternGroup[i])}`]) {
-            library[`${getWindowSize(patternGroup[i])}`] = {};
-        }
-        library[`${getWindowSize(patternGroup[i])}`][patternGroup[i]] = {
-            'name' : patName,
-            'type' : patType,
-            'description' : patDescription,
 
+
+const libraryByWindowSize = {};
+for (const currPattern of DiscontinuedPatternsLibrary) {
+    console.log(currPattern['pattern'])
+    const listOfPatternsGroups = getFramesForAllOrientations(currPattern.pattern);
+    console.log(listOfPatternsGroups);
+    for (const patternGroup of listOfPatternsGroups) {
+        for (let i = 0; i < patternGroup.length; i++) {
+            if (!libraryByWindowSize[`[${getWindowSize(patternGroup[i])}]`]) {
+                libraryByWindowSize[`[${getWindowSize(patternGroup[i])}]`] = {};
+            }
+            libraryByWindowSize[`[${getWindowSize(patternGroup[i])}]`][patternGroup[i]] = {
+                'name' : currPattern.name,
+                'type' : currPattern.type,
+                'description' :  currPattern.description,
+
+            }
+            if (patternGroup.length > 1) {libraryByWindowSize[`[${getWindowSize(patternGroup[i])}]`][`${patternGroup[i]}`]['step'] = `${i + 1} / ${patternGroup.length}`}
         }
-        if (patternGroup.length > 1) {library[`${getWindowSize(patternGroup[i])}`][`${patternGroup[i]}`]['step'] = `${i + 1} / ${patternGroup.length}`}
+
     }
-
-}
-
-console.log(library)
-
-//console.log(library);
-
-
-const testPatternObj = {
-    'id' : patternIDGenerator(pattern),
-    'name' : '',
-    'type' : 'spaceship',
-    'description' : 'testdescription',
-    'pattern' : pattern
 }
 
 
+console.log(libraryByWindowSize)
 
 //                  PATTERN DETECTION IN GRID
 
 
 //____________Valid pattern detection_______________________
 //check that the pattern is surrounded by undefined or false;
-const patternIsIsolated = (y, x, grid, pattern) => {
-    for (let i = -1; i <= pattern.length; i++) {
-        for (let j = -1; j <= pattern[0].length; j++) {
-            if (i > -1 && i < pattern.length && j > - 1 && j < pattern[0].length) {continue;}
+const patternIsIsolated = (y, x, grid, windowHeight, windowLength) => {
+    for (let i = -1; i <= windowHeight; i++) {
+        for (let j = -1; j <= windowLength; j++) {
+            if (i > -1 && i < windowHeight && j > - 1 && j < windowLength) {continue;}
             if (grid[y +  i]?.[x + j]) {
                 return false;
             }
         }
     }
+    console.log('isolated')
     return true;
 }
 //check that every square at pattern location is correct
-const patternIsMatching = (y, x, grid, pattern) => {
-    for (let i = 0; i < pattern.length; i++) {
-        for (let j = 0; j < pattern[0].length; j++) {
-            if (grid[y + i][x + j] !== pattern[i][j]) {
+//fix this to work with IDs <--------------
+const patternIsMatching = (y, x, grid, windowHeight, windowLength, id) => {
+    for (let i = 0; i < windowHeight; i++) {
+        for (let j = 0; j < windowLength; j++) {
+            if (!grid[y + i][x + j]) {continue;}
+            if (!id.includes(`${[i,j]}`)) {
                 return false;
             }
         }
@@ -194,29 +191,44 @@ const patternIsMatching = (y, x, grid, pattern) => {
 //based on its id and (x,y) coordinates, gets every true square coordinates
 const getPatternCoordinates = (y, x, id) => {
     const newID = JSON.parse(id);
-    for (const coordinate of id) {
+    for (const coordinate of newID) {
         coordinate[0] += y;
         coordinate[1] += x;
     }
     return newID;
 }
 
-const checkGrid = (grid, patternObj) => {
-    const patterns = [];
-    for (let y = 0; y < grid.length - patternObj.pattern.length + 1; y++) {
-        for (let x = 0; x < grid[0].length - patternObj.pattern[0].length + 1; x++) {
-            if (patternIsIsolated(y,x,grid, pattern) && patternIsMatching(y, x, grid, pattern)) {
+const checkGrid = (grid, windowHeight, windowLength, id, patterns) => {
+    for (let y = 0; y < grid.length - windowHeight + 1; y++) {
+        for (let x = 0; x < grid[0].length - windowLength + 1; x++) {
+            if (patternIsIsolated(y, x,grid, windowHeight, windowLength) && 
+                patternIsMatching(y, x, grid, windowHeight, windowLength, id)) {
                 patterns.push({
-                    'id' : patternObj['id'],
-                    'coordinates' : getPatternCoordinates(y, x, patternObj['id']),
+                    'id' : id,
+                    'coordinates' : getPatternCoordinates(y, x, id),
                 })
+                console.log('match', y, x)
+                console.log(getPatternCoordinates(y, x, id))
             }
         }
     }
-    return patterns;
 }
 
-collectedPatterns = checkGrid(grid, testPatternObj);
+const collectedPatterns = checkGrid(grid, testPatternObj);
+console.log(collectedPatterns);
+
+const patterns = [];
+for (let windowSizes of Object.keys(libraryByWindowSize)) {
+    windowSizes = JSON.parse(windowSizes);
+    for (let id of Object.keys(libraryByWindowSize[JSON.stringify(windowSizes)])) {
+        console.log(windowSizes, 'hey');
+        checkGrid(grid, windowSizes[0], windowSizes[1], id, patterns);
+    }
+}
+
+console.log(patterns);
+console.log(JSON.stringify(patterns[0].coordinates))
+
 
 //console.log(collectedPatterns);
 

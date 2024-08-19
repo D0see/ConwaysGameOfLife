@@ -105,7 +105,7 @@ const stylePressedButton = (button, listOfButtons) => {
 //Global variables
 let playGround;
 let gridHeight;
-let gridWith;
+let gridWidth;
 const grid = document.getElementById('grid');
 const advanceButton = document.getElementById('advance');
 const playButton = document.getElementById('play');
