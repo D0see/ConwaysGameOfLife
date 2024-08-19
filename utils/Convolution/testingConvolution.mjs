@@ -36,21 +36,6 @@ const rotateGrid = (grid) => {
 }
 //
 
-const pattern = [
-              [false, false, false, false, false, false, false, false, false, false, false, false],
-              [false, false, false, false, false, false, false, true, true, true, true, false],
-              [false, false, false, false, false, false, false, true, false, false, false, true],
-              [false, false, false, false, false, false, false, true, false, false, false, false],
-              [false, false, false, false, false, false, false, false, true, false, false, true],
-              [false, false, false, false, false, false, false, false, false, false, false, false]];
-
-
-const pattern2 = [[false, false, false, false, false, false],
-                  [false, true, true, true, true, false],
-                  [false, true, false, false, false, true],
-                  [false, true, false, false, false, false],
-                  [false, false, true, false, false, true]];
-
 const grid = [[false, false, false, false, false, false],
               [false, true, true, true, true, false],
               [false, true, false, false, false, true],
@@ -87,8 +72,6 @@ const patternIDGenerator = (pattern) => {
     return JSON.stringify(id);
 }           
 
-patternIDGenerator(pattern);
-
 const getEveryFrames = (grid) => {
     let tempGrid = JSON.parse(JSON.stringify(grid));
     const originalPattern = patternIDGenerator(tempGrid);
@@ -124,18 +107,12 @@ const getWindowSize = (patternID) => {
     return [Math.max(...Ys) + 1, Math.max(...Xs) + 1];
 }
 
-//type the name, type and description here
-const patName = 'c/2 orthogonal';
-const patType = 'spaceship';
-const patDescription = 'c/2 orthogonal was the second spaceship speed to be discovered';
 
-
+// Library maker
 
 const libraryByWindowSize = {};
 for (const currPattern of DiscontinuedPatternsLibrary) {
-    console.log(currPattern['pattern'])
     const listOfPatternsGroups = getFramesForAllOrientations(currPattern.pattern);
-    console.log(listOfPatternsGroups);
     for (const patternGroup of listOfPatternsGroups) {
         for (let i = 0; i < patternGroup.length; i++) {
             if (!libraryByWindowSize[`[${getWindowSize(patternGroup[i])}]`]) {
@@ -153,8 +130,12 @@ for (const currPattern of DiscontinuedPatternsLibrary) {
     }
 }
 
-
-console.log(libraryByWindowSize)
+//exists only to manually update the PatternLibrary.mjs
+const discontinuedPatterns = [];
+for (const obj of Object.keys(libraryByWindowSize)) {
+    discontinuedPatterns.push(libraryByWindowSize[obj]);
+}
+console.log(discontinuedPatterns);
 
 //                  PATTERN DETECTION IN GRID
 
@@ -170,7 +151,6 @@ const patternIsIsolated = (y, x, grid, windowHeight, windowLength) => {
             }
         }
     }
-    console.log('isolated')
     return true;
 }
 //check that every square at pattern location is correct
@@ -207,21 +187,16 @@ const checkGrid = (grid, windowHeight, windowLength, id, patterns) => {
                     'id' : id,
                     'coordinates' : getPatternCoordinates(y, x, id),
                 })
-                console.log('match', y, x)
-                console.log(getPatternCoordinates(y, x, id))
             }
         }
     }
 }
 
-const collectedPatterns = checkGrid(grid, testPatternObj);
-console.log(collectedPatterns);
 
 const patterns = [];
 for (let windowSizes of Object.keys(libraryByWindowSize)) {
     windowSizes = JSON.parse(windowSizes);
     for (let id of Object.keys(libraryByWindowSize[JSON.stringify(windowSizes)])) {
-        console.log(windowSizes, 'hey');
         checkGrid(grid, windowSizes[0], windowSizes[1], id, patterns);
     }
 }
