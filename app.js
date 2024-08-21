@@ -1,3 +1,5 @@
+import { libraryByWindowSize } from "./utils/Convolution/libraryByWindowSize.mjs";
+import { collectDiscontinuedPatterns } from "./utils/Convolution/testingConvolution.mjs";
 import patternRecognition from "./patternRecognition.mjs";
 import patternLibrary from "./PatternLibrary.mjs";
 
@@ -168,8 +170,10 @@ pauseButton.addEventListener('click', () => {
 })
 //very optimisable <------------------------------------------ PLACE HOLDER FOR CUSTOM HINTBOXLOGIC
 analyzeButton.addEventListener('click', () => {
-    const patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
-    console.log(patterns) /// for testing purposes
+    let patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
+    //adds disctonued patterns to the pattern list (disctontinued patterns will overwrite continuous one on the final grid)
+    patterns = patterns.concat(collectDiscontinuedPatterns(libraryByWindowSize, playGround));
+    //console.log(patterns) /// for testing purposes
     if (!patterns.length) {return;}
     const squares = grid.children;
     for (const pattern of patterns) {
