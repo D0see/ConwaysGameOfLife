@@ -202,7 +202,7 @@ const checkGrid = (grid, windowHeight, windowLength, id, patterns) => {
 }
 
 
-export const collectDiscontinuedPatterns = (libraryByWindowSize, grid) => {
+export const collectDiscontinuedPatterns = (grid, libraryByWindowSize) => {
     const patterns = [];
     for (let windowSizes of Object.keys(libraryByWindowSize)) {
         windowSizes = JSON.parse(windowSizes);

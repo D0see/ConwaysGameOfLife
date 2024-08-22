@@ -44,12 +44,13 @@ function removeAllChildrens(element){
 }
 
 // Appends the blocks Div to the grid element and make them clickable
-const buildGrid = (grid, playGround, cellColors) => {
+function buildGrid(grid, playGround, cellColors) {
     // selectedState is the state of the clicked element when it's clicked
     let selectedState;
     for (let i = 0; i < playGround.length; i++){
         for (let j = 0; j < playGround[0].length; j++){
-            const visualBlock = document.createElement('div');
+            const visualBlock = document.createElement('visualBlock');
+            visualBlock.style.animation = `appearing ${i*0.005 + j*0.04}s`
             visualBlock.style.backgroundColor = cellColors.dead;
             visualBlock.addEventListener('mousedown', (event) => {
                 event.preventDefault();
@@ -170,9 +171,8 @@ pauseButton.addEventListener('click', () => {
 })
 //very optimisable <------------------------------------------ PLACE HOLDER FOR CUSTOM HINTBOXLOGIC
 analyzeButton.addEventListener('click', () => {
-    let patterns = patternRecognition.collectPatterns(playGround, patternLibrary);
-    //adds disctonued patterns to the pattern list (disctontinued patterns will overwrite continuous one on the final grid)
-    patterns = patterns.concat(collectDiscontinuedPatterns(libraryByWindowSize, playGround));
+    const patterns = patternRecognition.collectPatterns(playGround, patternLibrary).concat(collectDiscontinuedPatterns(playGround, libraryByWindowSize));
+    //adds disctonued patterns to the pattern list (discontinued patterns will overwrite continuous one on the final grid)
     //console.log(patterns) /// for testing purposes
     if (!patterns.length) {return;}
     const squares = grid.children;

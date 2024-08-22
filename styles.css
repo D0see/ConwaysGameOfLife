@@ -92,6 +92,18 @@ input:hover {
     background-color: white; 
 }
 
+@keyframes appearing {
+    0% {
+        opacity: 0;
+    }
+    95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .oscillatorBlock {
     background: linear-gradient(90deg, rgba(177, 72, 226, 0.60) 0%, rgba(177, 72, 226, 0.85) 50%, rgba(177, 72, 226, 0.60) 100%);     
     animation: moving-background 5s linear infinite;
