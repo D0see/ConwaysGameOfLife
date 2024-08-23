@@ -96,7 +96,7 @@ input:hover {
     0% {
         opacity: 0;
     }
-    95% {
+    80% {
         opacity: 0;
     }
     100% {
@@ -106,21 +106,21 @@ input:hover {
 
 .oscillatorBlock {
     background: linear-gradient(90deg, rgba(177, 72, 226, 0.60) 0%, rgba(177, 72, 226, 0.85) 50%, rgba(177, 72, 226, 0.60) 100%);     
-    animation: moving-background 5s linear infinite;
+    animation: moving-background 5s linear infinite !important;
     background-size: 500% 500%;
     transition: background-color 0.25s ease;
 }
 
 .stillLifeBlock {
     background: linear-gradient(90deg, rgba(72, 221, 226, 0.60) 0%, rgba(72, 221, 226, 0.85) 50%, rgba(72, 221, 226, 0.60) 100%);     
-    animation: moving-background 5s linear infinite;
+    animation: moving-background 5s linear infinite !important;
     background-size: 500% 500%;
     transition: background-color 0.25s ease;
 }
 
 .spaceshipBlock {
     background: linear-gradient(90deg, rgba(226, 72, 111, 0.60) 0%, rgba(226, 72, 111, 0.85) 50%, rgba(226, 72, 111, 0.60) 100%);     
-    animation: moving-background 5s linear infinite;
+    animation: moving-background 5s linear infinite !important; 
     background-size: 500% 500%;
     transition: background-color 0.25s ease;
 }

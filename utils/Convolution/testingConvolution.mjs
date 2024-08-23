@@ -186,16 +186,12 @@ const getPatternCoordinates = (y, x, id) => {
 const checkGrid = (grid, windowHeight, windowLength, id, patterns) => {
     for (let y = 0; y < grid.length - windowHeight + 1; y++) {
         for (let x = 0; x < grid[0].length - windowLength + 1; x++) {
-            if (patternIsIsolated(y, x,grid, windowHeight, windowLength)) {console.log('patternIsolated', y ,x)}
-            if ( patternIsMatching(y, x, grid, windowHeight, windowLength, id)) {console.log('patternismatching', y ,x, id)}
-
             if (patternIsIsolated(y, x,grid, windowHeight, windowLength) && 
                 patternIsMatching(y, x, grid, windowHeight, windowLength, id)) {
                 patterns.push({
                     'id' : id,
                     'coordinates' : getPatternCoordinates(y, x, id),
                 })
-                console.log('newpattern')
             }
         }
     }

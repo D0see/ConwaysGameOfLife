@@ -50,7 +50,7 @@ function buildGrid(grid, playGround, cellColors) {
     for (let i = 0; i < playGround.length; i++){
         for (let j = 0; j < playGround[0].length; j++){
             const visualBlock = document.createElement('visualBlock');
-            visualBlock.style.animation = `appearing ${i*0.005 + j*0.04}s`
+            visualBlock.style.animation = `appearing ${i*0.02 + j*0.02}s`;
             visualBlock.style.backgroundColor = cellColors.dead;
             visualBlock.addEventListener('mousedown', (event) => {
                 event.preventDefault();
@@ -192,7 +192,6 @@ analyzeButton.addEventListener('click', () => {
                     squares[numOfSquare].classList.add('spaceshipBlock');
                     break;
             }
-            //squares[numOfSquare].style.backgroundColor = 'yellow';
             //PLACEHOLDER 
             squares[numOfSquare].setAttribute('title', `${patternLibrary[pattern['id']]['name'].toUpperCase()} : ${patternLibrary[pattern['id']]['description']}`)
         }
