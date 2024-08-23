@@ -96,7 +96,7 @@ input:hover {
     0% {
         opacity: 0;
     }
-    80% {
+    90% {
         opacity: 0;
     }
     100% {
@@ -104,25 +104,37 @@ input:hover {
     }
 }
 
+@keyframes patternDetected {
+    0% {
+        transform: scale(100%);
+        border : 1px solid white;
+    }
+    75% {
+        transform: scale(120%);
+        border : 1px solid white;
+    }
+    100% {
+        transform: scale(100%);
+        border : 1px solid white;
+    }
+}
+
 .oscillatorBlock {
     background: linear-gradient(90deg, rgba(177, 72, 226, 0.60) 0%, rgba(177, 72, 226, 0.85) 50%, rgba(177, 72, 226, 0.60) 100%);     
-    animation: moving-background 5s linear infinite !important;
+    animation: moving-background 5s linear infinite, patternDetected 0.3s ease-out !important;
     background-size: 500% 500%;
-    transition: background-color 0.25s ease;
 }
 
 .stillLifeBlock {
     background: linear-gradient(90deg, rgba(72, 221, 226, 0.60) 0%, rgba(72, 221, 226, 0.85) 50%, rgba(72, 221, 226, 0.60) 100%);     
-    animation: moving-background 5s linear infinite !important;
+    animation: moving-background 5s linear infinite, patternDetected 0.3s ease-out !important;
     background-size: 500% 500%;
-    transition: background-color 0.25s ease;
 }
 
 .spaceshipBlock {
     background: linear-gradient(90deg, rgba(226, 72, 111, 0.60) 0%, rgba(226, 72, 111, 0.85) 50%, rgba(226, 72, 111, 0.60) 100%);     
-    animation: moving-background 5s linear infinite !important; 
+    animation: moving-background 5s linear infinite, patternDetected 0.3s ease-out !important;
     background-size: 500% 500%;
-    transition: background-color 0.25s ease;
 }
 
 @keyframes moving-background {
