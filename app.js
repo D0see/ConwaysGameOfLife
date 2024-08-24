@@ -89,6 +89,7 @@ const resetAttributes = (grid) => {
     for (const square of squares) {
         square.removeAttribute('title');
         square.removeAttribute('class');
+        square.style.animation = '';
     }
 }
 
